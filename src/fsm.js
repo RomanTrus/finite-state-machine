@@ -52,14 +52,21 @@ class FSM {
      * @returns {Array}
      */
     getStates(event) {
+      let arrStates=[];
       if (event===undefined){
-      var arrStates=[];
       for (var key in this.config.states){
         arrStates.push(key);
-      }
-      return arrStates;
+        }
+      } else {
+        for (var key in this.config.states){
+          for (var key2 in this.config.states[key].transitions){
+            if (key2==event){
+              arrStates.push(key);
+            }
+          }
+        }
     }
-
+    return arrStates;
     }
 
     /**
