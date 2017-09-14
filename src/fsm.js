@@ -6,6 +6,7 @@ class FSM {
     constructor(config) {
       this.config=config;
     	this.state=config.initial;
+      this.history=[config.initial];
     }
 
     /**
@@ -33,6 +34,7 @@ class FSM {
     trigger(event) {
       if (event in this.config.states[this.state].transitions){
       this.state=this.config.states[this.state].transitions[event];
+      this.history.push(this.state);
     }else {
       throw new Error();
     }
@@ -74,12 +76,19 @@ class FSM {
      * Returns false if undo is not available.
      * @returns {Boolean}
      */
-    undo() {}
+    undo() {
+      if (this.history.length==1){
+        return false
+      } else {
+        this.history.pop();
+        this.state=this.history[this.history.length-1]
+      }
+    }
 
     /**
      * Goes redo to state.
      * Returns false if redo is not available.
-     * @returns {Boolean}
+     * @returns {Boolean} 
      */
     redo() {}
 
