@@ -52,6 +52,13 @@ class FSM {
      * @returns {Array}
      */
     getStates(event) {
+      if (event===undefined){
+      var arrStates=[];
+      for (var key in this.config.states){
+        arrStates.push(key);
+      }
+      return arrStates;
+    }
 
     }
 
