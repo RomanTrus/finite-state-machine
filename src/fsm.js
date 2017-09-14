@@ -92,12 +92,18 @@ class FSM {
      * Returns false if redo is not available.
      * @returns {Boolean} 
      */
-    redo() {}
+    redo() {
+      if (this.history.length==1){
+        return false
+      }
+    }
 
     /**
      * Clears transition history
      */
-    clearHistory() {}
+    clearHistory() {
+      this.history=[this.config.initial]
+    }
 }
 
 module.exports = FSM;
