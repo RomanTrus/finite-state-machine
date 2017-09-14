@@ -24,6 +24,7 @@ class FSM {
     changeState(state) {
     	if (state in this.config.states) {
     	  this.state=state;
+        this.history.push(this.state);
     	} else {throw new Error()};
     }
 
@@ -82,6 +83,7 @@ class FSM {
       } else {
         this.history.pop();
         this.state=this.history[this.history.length-1]
+        return true;
       }
     }
 
