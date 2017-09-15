@@ -7,6 +7,7 @@ class FSM {
       this.config=config;
     	this.state=config.initial;
       this.history=[config.initial];
+      this.lastStep=[];
     }
 
     /**
@@ -25,6 +26,7 @@ class FSM {
     	if (state in this.config.states) {
     	  this.state=state;
         this.history.push(this.state);
+        this.lastStep=[];
     	} else {throw new Error()};
     }
 
@@ -36,6 +38,7 @@ class FSM {
       if (event in this.config.states[this.state].transitions){
       this.state=this.config.states[this.state].transitions[event];
       this.history.push(this.state);
+      this.lastStep=[];
     }else {
       throw new Error();
     }
@@ -81,7 +84,7 @@ class FSM {
       if (this.history.length==1){
         return false
       } else {
-        this.history.pop();
+        this.lastStep.push(this.history.pop());
         this.state=this.history[this.history.length-1]
         return true;
       }
@@ -93,8 +96,12 @@ class FSM {
      * @returns {Boolean} 
      */
     redo() {
-      if (this.history.length==1){
-        return false
+
+      if (this.lastStep.length==0){
+        return false;
+      } else {
+        this.state=this.lastStep.pop();
+        return true;
       }
     }
 
